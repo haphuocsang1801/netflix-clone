@@ -1,10 +1,10 @@
-import Image from "next/image";
 import { BellIcon, SearchIcon } from "@heroicons/react/solid";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  console.log("Header ~ isScrolled", isScrolled);
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
@@ -14,7 +14,9 @@ const Header = () => {
       }
     };
     window.addEventListener("scroll", handleScroll);
-    return window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
   return (
     <header className={`${isScrolled && "bg-[#141414]"}`}>
