@@ -3,7 +3,7 @@ import Banner from "../components/Banner";
 import Header from "../components/Header";
 import Row from "../components/Row";
 import { Movie } from "../typings";
-import requests from "./utils/requests";
+import requests from "../utils/requests";
 interface Props {
   netflixOriginals: Movie[];
   trendingNow: Movie[];
