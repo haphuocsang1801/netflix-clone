@@ -9,18 +9,21 @@
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@heroicons/react": "^1.0.6",
+    "@hookform/resolvers": "^2.9.7",
     "@mui/material": "^5.10.0",
     "@tailwindcss/line-clamp": "^0.4.0",
     "firebase": "^9.9.2",
     "next": "latest",
     "react": "18.1.0",
     "react-dom": "18.1.0",
-    "react-hook-form": "^7.34.0",
+    "react-hook-form": "^7.34.1",
+    "react-hot-toast": "^2.3.0",
     "react-icons": "^4.4.0",
     "react-player": "^2.10.1",
     "recoil": "^0.7.5",
     "swiper": "^8.3.2",
-    "tailwind-scrollbar-hide": "^1.1.7"
+    "tailwind-scrollbar-hide": "^1.1.7",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/node": "17.0.35",

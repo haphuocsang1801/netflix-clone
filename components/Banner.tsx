@@ -1,11 +1,11 @@
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { baseUrl } from "../constants/movie";
-import { FaPlay } from "react-icons/fa";
-import { Movie } from "../typings";
 import { InformationCircleIcon } from "@heroicons/react/solid";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { FaPlay } from "react-icons/fa";
 import { useRecoilState } from "recoil";
 import { modalState, movieState } from "../atoms/modalAtom";
+import { baseUrl } from "../constants/movie";
+import { Movie } from "../typings";
 interface Props {
   netflixOriginals: Movie[];
 }
@@ -27,11 +27,14 @@ const Banner = ({ netflixOriginals }: Props) => {
           src={`${baseUrl}${movie?.backdrop_path || movie?.poster_path}`}
           objectFit="cover"
         />
+        {/* <video autoPlay loop style={{ width: "500px", height: "500px" }}>
+          <source src="/blue.mp4" />
+        </video> */}
       </div>
       <h1 className="text-2xl font-bold md:text-4xl lg:text-7xl">
         {movie?.title || movie?.name || movie?.original_name}
       </h1>
-      <p className="max-w-xs  text-xs text-shadow-md md:max-w-lg md:text-lg lg:max-w-2xl lg:text-2xl">
+      <p className="max-w-xs line-clamp-5  text-xs text-shadow-md md:max-w-lg md:text-lg lg:max-w-2xl lg:text-2xl">
         {movie?.overview}
       </p>
       <div className="flex space-x-3">

@@ -10,10 +10,10 @@ import Field from "../components/base/Field";
 import Input from "../components/base/Input";
 import { Loading } from "../components/Loading";
 import useAuth from "../hooks/useAuth";
-
 interface Inputs {
   email: string;
   password: string;
+  passwordConfirm: string;
 }
 const schema = yup.object({
   email: yup
@@ -24,19 +24,22 @@ const schema = yup.object({
     .string()
     .min(8, "Your password must be at least 8 characters or greater")
     .required("Please enter your password"),
+  passwordConfirm: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
-const login = () => {
-  const { signIn, loading } = useAuth();
+const signup = () => {
+  const { signUp, loading } = useAuth();
   const {
-    control,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<Inputs>({
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
-    await signIn(email, password);
+    await signUp(email, password);
   };
   return (
     <div className="relative flex h-screen w-screen flex-col bg-black md:items-center md:justify-center md:bg-transparent">
@@ -62,7 +65,7 @@ const login = () => {
         className="relative mt-24 space-y-8 rounded bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h1 className="text-4xl">Sign In</h1>
+        <h1 className="text-4xl">Sign Up</h1>
         <div className="space-y-4">
           <Field>
             <Input
@@ -84,20 +87,23 @@ const login = () => {
             />
             <ErrorMessage error={errors.password} />
           </Field>
+          <Field>
+            <Input
+              type="password"
+              name="passwordConfirm"
+              placeholder="Confirm password"
+              className="input"
+              control={control}
+            />
+            <ErrorMessage error={errors.passwordConfirm} />
+          </Field>
         </div>
         <Button>Sign In</Button>
-        <div className="text-[gray] text-center !mt-2.5 ">
-          <Link href={"/forgotPassword"}>
-            <span className="cursor-pointer ml-auto text-white transition hover:underline">
-              Forgot password
-            </span>
-          </Link>
-        </div>
         <div className="text-[gray]">
-          New to Netflix?{" "}
-          <Link href={"/signup"}>
+          Already have an account?{" "}
+          <Link href={"/login"}>
             <span className="cursor-pointer text-white transition hover:underline">
-              Sign up now
+              Sign In
             </span>
           </Link>
         </div>
@@ -106,4 +112,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default signup;

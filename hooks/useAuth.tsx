@@ -1,8 +1,10 @@
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
+  updateEmail,
   User,
 } from "firebase/auth";
 
@@ -21,6 +23,8 @@ interface IAuth {
   signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   logOut: () => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
+  changeEmail: (email: string) => Promise<void>;
   error: string | null;
   loading: boolean;
 }
@@ -32,6 +36,8 @@ const AuthContext = createContext<IAuth>({
   signUp: async () => {},
   signIn: async () => {},
   logOut: async () => {},
+  resetPassword: async () => {},
+  changeEmail: async () => {},
   error: null,
   loading: false,
 });
@@ -42,6 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [error, setError] = useState(null);
   const [initialLoading, setInitialLoading] = useState(true);
   const router = useRouter();
+
   useEffect(
     () =>
       onAuthStateChanged(auth, (user) => {
@@ -59,7 +66,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }),
     [auth]
   );
-
   const signUp = async (email: string, password: string) => {
     setLoading(true);
     await createUserWithEmailAndPassword(auth, email, password)
@@ -72,6 +78,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLoading(false);
       });
   };
+
   const signIn = async (email: string, password: string) => {
     setLoading(true);
     await signInWithEmailAndPassword(auth, email, password)
@@ -84,7 +91,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLoading(false);
       });
   };
-
+  const resetPassword = (email: string) => {
+    return sendPasswordResetEmail(auth, email);
+  };
+  const changeEmail = (email: string) => {
+    if (!auth.currentUser) return Promise.reject("Currnet user not exits");
+    return updateEmail(auth.currentUser!, email);
+  };
   const logOut = async () => {
     setLoading(true);
     signOut(auth)
@@ -96,7 +109,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const memoedValue = useMemo(
-    () => ({ user, signUp, signIn, error, loading, logOut }),
+    () => ({
+      user,
+      signUp,
+      signIn,
+      resetPassword,
+      changeEmail,
+      error,
+      loading,
+      logOut,
+    }),
     [user, loading, error]
   );
   return (
