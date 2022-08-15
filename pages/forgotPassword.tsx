@@ -10,7 +10,7 @@ import Button from "../components/base/Button";
 import ErrorMessage from "../components/base/ErrorMessage";
 import Field from "../components/base/Field";
 import Input from "../components/base/Input";
-import Loading from "../components/Loading";
+import { Loading } from "../components/Loading";
 import useAuth from "../hooks/useAuth";
 interface Inputs {
   email: string;
